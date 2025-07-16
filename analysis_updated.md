@@ -43,7 +43,7 @@ This analysis examines the credit scoring results for Aave V2 protocol wallets, 
 - **Average Consecutive Same Actions**: 58.9%%
 - **Average Very Short Intervals**: 72.8%%
 
-(Section continues...)
+
 
 ## High Score Analysis (700-1000)
 
@@ -55,7 +55,7 @@ This analysis examines the credit scoring results for Aave V2 protocol wallets, 
 - **Average Unique Reserves**: 4.5
 - **Average Healthy Patterns**: 5.1%%
 
-(Rest of the document...)
+
 
 ---
 
