@@ -144,10 +144,15 @@ aave-credit-scorer/
 This project fully satisfies the Aave V2 internship assignment requirements:
 
 ✅ Ingests a sample of 100K raw DeFi transactions
+
 ✅ Assigns a credit score (0–1000) per wallet
+
 ✅ Scores are derived **solely from behavioral data**
+
 ✅ Implements a **one-step script** to generate scores
+
 ✅ Includes a **markdown-based report**
+
 ✅ Fully documented with setup and execution instructions
 
 ---
