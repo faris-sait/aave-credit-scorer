@@ -1,8 +1,8 @@
-#!/usr/bin/env python3
 """
 Analysis Report Generator
 Updates the analysis.md template (with unique placeholders) using a simple
 and robust dictionary-based replacement method.
+Author: Mohammed Faris Sait 
 """
 
 import json
