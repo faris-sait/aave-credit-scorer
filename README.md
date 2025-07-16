@@ -59,7 +59,7 @@ Aggregated statistics are in analysis_results.json.
 
 The complete, human-readable report is in analysis_updated.md.
 
-## 📁 Project Structure
+##📁 Project Structure
 aave-credit-scorer/
 ├── data/
 │   └── transactions.json         # Raw 100K transaction data
