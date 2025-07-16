@@ -1,16 +1,10 @@
-#!/usr/bin/env python3
 """
 DeFi Credit Scoring System for Aave V2 Protocol
 A robust machine learning model that assigns credit scores (0-1000) to wallets
 based on historical transaction behavior.
+Author: Mohammed Faris Sait 
 """
 
-# !/usr/bin/env python3
-"""
-DeFi Credit Scoring System for Aave V2 Protocol - Fixed for Wei Amounts
-A robust machine learning model that assigns credit scores (0-1000) to wallets
-based on historical transaction behavior.
-"""
 
 import json
 import pandas as pd
