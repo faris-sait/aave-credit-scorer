@@ -1,111 +1,161 @@
-## Aave V2 DeFi Credit Scoring Model
-A Python application that analyzes on-chain transaction data from the Aave V2 protocol to assign a credit score (0-1000) to user wallets. This project engineers features from raw transaction data to identify reliable, risky, or bot-like behavior.
+# Aave V2 DeFi Credit Scoring Model
+
+A Python application that analyzes Aave V2 protocol transactions and assigns a **credit score (0–1000)** to DeFi wallets. The system uses behavioral feature engineering and a hybrid rule-based + ML model to assess user reliability, risk, and potential bot-like behavior.
+
+---
+
+## 💡 Bonus Concept
+
+This scoring framework can be adapted into a real-time risk engine for DeFi lending protocols to dynamically adjust interest rates, collateral requirements, or access based on wallet behavior.
+
+---
 
 ## 🎯 Project Overview
-This tool takes a JSON file of Aave V2 transactions as input, processes the data for thousands of unique wallets, and generates a credit score for each based on their financial behavior. The model provides a quantitative measure of a wallet's reliability, making it a valuable tool for on-chain risk assessment.
+
+The system processes a raw JSON file containing \~100K Aave V2 transactions, extracts wallet behaviors, and computes a credit score per wallet. This score reflects the wallet's history of deposits, borrows, repayments, liquidations, and more — enabling **automated trust signals** in decentralized finance.
+
+---
 
 ## 📋 Features
-Behavioral Feature Engineering: Creates insightful metrics from raw, transaction-level JSON data, capturing wallet activity, risk management, and signs of automation.
 
-Credit Scoring Algorithm: Implements a heuristic model that aggregates various behavioral features into a single, normalized credit score from 0 to 1000.
+* **Behavioral Feature Engineering**
+  Extracts 30+ behavioral features such as days active, deposit/borrow ratios, liquidation count, transaction timing, and bot-like patterns.
 
-Automated Analysis Report: Automatically generates a detailed analysis_updated.md report summarizing score distributions and the behavioral characteristics of high, medium, and low-scoring wallets.
+* **Hybrid Credit Scoring Algorithm**
+  Combines rule-based heuristics and a Random Forest ML model to assign credit scores between 0 and 1000.
 
-One-Step Execution: A single script (credit_scorer.py) processes the raw data, engineers features, and generates the final wallet scores and analysis data.
+* **Automated Markdown Report**
+  Generates a rich `analysis_updated.md` report with detailed score distribution, high-risk vs. low-risk behavior summaries, and feature importance rankings.
+
+* **One-Step Execution**
+  Just run `credit_scorer.py` with a JSON file to generate scores, visualizations, and analysis.
+
+---
 
 ## 🛠️ Technologies Used
-Python 3.9+: Core programming language
 
-Pandas & NumPy: Data manipulation and numerical analysis
+| Tech                | Purpose                                            |
+| ------------------- | -------------------------------------------------- |
+| Python 3.9+         | Core programming language                          |
+| Pandas, NumPy       | Data processing and manipulation                   |
+| Scikit-learn        | Machine learning (Isolation Forest, Random Forest) |
+| Matplotlib, Seaborn | Visualization of score distributions and trends    |
 
-Scikit-learn: For data scaling and modeling
-
-Matplotlib & Seaborn: For data visualization (used within the script to generate analysis plots)
+---
 
 ## 📦 Installation
-Clone the repository
 
+Clone the repository and set up the environment:
+
+```bash
 git clone <your-repo-url>
 cd aave-credit-scorer
 
-Create and activate a virtual environment
-
+# Create and activate a virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-Install dependencies
-
+# Install Python dependencies
 pip install -r requirements.txt
+```
 
-Download the data
-Place the user-transactions.json file inside a data/ directory in the project root.
+---
 
 ## 🚀 Usage
-Run the application
-Execute the main scoring script from the command line, providing the path to the transaction data.
 
+### 1️⃣ Place your transaction data
+
+Put your `user-transactions.json` inside the `data/` directory:
+
+```
+aave-credit-scorer/
+└── data/
+    └── user-transactions.json
+```
+
+### 2️⃣ Run the scoring pipeline
+
+```bash
 python credit_scorer.py data/user-transactions.json
+```
 
-Generate the analysis report
-Run the update script to populate the final markdown report.
+### 3️⃣ Generate the markdown report
 
+```bash
 python update_analysis.py
+```
 
-View results
+---
 
-Final scores are saved in wallet_credit_scores.csv.
+## 📁 Project Structure
 
-Aggregated statistics are in analysis_results.json.
-
-The complete, human-readable report is in analysis_updated.md.
-
-##📁 Project Structure
+```
 aave-credit-scorer/
 ├── data/
-│   └── transactions.json         # Raw 100K transaction data
-├── credit_scorer.py              # Main script to process data and generate scores
-├── update_analysis.py            # Script to populate the analysis report
-├── analysis.md                   # Markdown template for the analysis report
-├── analysis_results.json         # JSON output with aggregated analysis data
-├── wallet_credit_scores.csv      # CSV output with final scores for each wallet
-├── analysis_updated.md           # The final, populated analysis report
-├── requirements.txt              # Python dependencies
-└── README.md                     # This file
+│   └── user_transactions.json         # Raw transaction data (100K+ records)
+├── credit_scorer.py                   # Main processing and scoring script
+├── update_analysis.py                 # Report generator from results
+├── analysis.md                        # Template markdown for the final report
+├── wallet_credit_scores.csv           # Wallets with final credit scores
+├── analysis_results.json              # Score distributions and stats
+├── analysis_updated.md                # Populated final report
+├── requirements.txt                   # Python dependencies
+└── README.md                          # This file
+```
 
-## 📊 Generated Output Files
-wallet_credit_scores.csv: Contains the wallet address and its final final_score.
+---
 
-analysis_results.json: A structured JSON file containing:
+## 📊 Output Files
 
-Overall score statistics (mean, median, std, min, max).
+* **wallet\_credit\_scores.csv**
+  Contains wallet addresses and their assigned `final_score`.
 
-Score distribution broken down into ranges.
+* **analysis\_results.json**
+  Includes:
 
-Aggregated behavioral characteristics for low-scoring and high-scoring wallets.
+  * Mean, median, std deviation, min, max scores
+  * Score range distribution
+  * Behavioral stats for high- and low-scoring wallets
 
-analysis_updated.md: A comprehensive and human-readable report generated from the results, perfect for sharing insights.
+* **analysis\_updated.md**
+  Human-readable markdown report combining all results — great for sharing insights with stakeholders or teams.
+
+---
 
 ## ⚠️ Important Notes
-Data Format: The script expects the input JSON to match the structure of the provided sample data.
 
-Execution Time: Processing 100,000 transactions can take a few minutes depending on your machine's performance.
+* **Input Format**
+  The input JSON must include fields like `userWallet`, `action`, `timestamp`, and nested `actionData.amount`, `actionData.assetSymbol`.
 
-Extensibility: The feature engineering and scoring logic in credit_scorer.py are modular and can be easily extended with new rules or models.
+* **Performance**
+  On standard machines, scoring 100K records takes 1–3 minutes.
+
+* **Extensibility**
+  The scoring logic is modular. You can easily:
+
+  * Add new behavioral features
+  * Replace the ML model
+  * Extend the scoring logic to other protocols like Compound or MakerDAO
+
+---
 
 ## 📝 Assignment Requirements Compliance
-This project fulfills all requirements for the internship assignment:
 
-✅ Processes a sample of 100K raw, transaction-level data.
+This project fully satisfies the Aave V2 internship assignment requirements:
 
-✅ Assigns a credit score between 0 and 1000 to each wallet.
+✅ Ingests a sample of 100K raw DeFi transactions
+✅ Assigns a credit score (0–1000) per wallet
+✅ Scores are derived **solely from behavioral data**
+✅ Implements a **one-step script** to generate scores
+✅ Includes a **markdown-based report**
+✅ Fully documented with setup and execution instructions
 
-✅ Engineers features solely from historical transaction behavior.
-
-✅ Implements a one-step script (credit_scorer.py) to generate scores from a JSON file.
-
-✅ Includes a README.md that explains the project and its logic.
-
-✅ Provides clear setup and execution instructions.
+---
 
 ## 👤 Author
-Mohammed Faris Sait Created for Zeru AI Engineer Intern Assignment
+
+**Mohammed Faris Sait**
+Created for Zeru AI Engineer Intern Assignment
+---
+
+
